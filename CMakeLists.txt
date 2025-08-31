@@ -20,7 +20,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE lib/)
 if (WIN32)
     target_link_libraries(${PROJECT_NAME} ${CMAKE_SOURCE_DIR}/lib/steamworks/bin/steam_api64.lib)
 elseif (APPLE)
-    target_link_libraries(${PROJECT_NAME} ${CMAKE_SOURCE_DIR}/lib/steamworks/bin/steam_api64.dylib)
+    target_link_libraries(${PROJECT_NAME} ${CMAKE_SOURCE_DIR}/lib/steamworks/bin/libsteam_api64.dylib)
 endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE include/)
