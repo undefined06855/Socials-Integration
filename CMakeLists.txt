@@ -16,7 +16,12 @@ file(GLOB_RECURSE SOURCES
 
 add_library(${PROJECT_NAME} SHARED ${SOURCES})
 target_include_directories(${PROJECT_NAME} PRIVATE lib/)
-target_link_libraries(${PROJECT_NAME} ${CMAKE_SOURCE_DIR}/lib/steamworks/bin/steam_api64.lib)
+
+if (WIN32)
+    target_link_libraries(${PROJECT_NAME} ${CMAKE_SOURCE_DIR}/lib/steamworks/bin/steam_api64.lib)
+elseif (APPLE)
+    target_link_libraries(${PROJECT_NAME} ${CMAKE_SOURCE_DIR}/lib/steamworks/bin/steam_api64.dylib)
+endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE include/)
 
