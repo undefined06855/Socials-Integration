@@ -15,10 +15,6 @@
     "tags": [ "online" ],
 
     "dependencies": {
-        "dankmeme.globed2": {
-            "importance": "suggested",
-            "version": "v1.8.6"
-        },
         "geode.node-ids": {
             "importance": "required",
             "version": "v1.21.0"

@@ -1,5 +1,6 @@
 #define GEODE_DEFINE_EVENT_EXPORTS
-#include "events.hpp"
+#include "provider.hpp"
+#include "source.hpp"
 #include "InviteManager.hpp"
 
 geode::Result<> socials::GatherFriendsEvent::submitFriendSource(std::vector<socials::Friend>& friends, socials::SourceInfo info) {

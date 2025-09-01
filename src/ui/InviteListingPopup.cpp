@@ -1,7 +1,6 @@
 #include "InviteListingPopup.hpp"
 #include "../InviteManager.hpp"
 #include "FriendCell.hpp"
-#include <dankmeme.globed2/include/globed.hpp>
 
 InviteListingPopup* InviteListingPopup::create() {
     auto ret = new InviteListingPopup;
@@ -137,10 +136,6 @@ std::pair<std::string, std::string> InviteListingPopup::getInvitePreviewInfo() {
 
     if (auto gjbgl = GJBaseGameLayer::get()) {
         levelName = gjbgl->m_level->m_levelName;
-    }
-
-    if (auto roomData = globed::room::getRoomData()) {
-        lobbyName = roomData.unwrap().name;
     }
 
     return { levelName, lobbyName };

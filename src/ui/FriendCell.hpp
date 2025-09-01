@@ -1,5 +1,5 @@
 #pragma once
-#include "events.hpp"
+#include "provider.hpp"
 
 class FriendCell : public cocos2d::CCNode {
 public:

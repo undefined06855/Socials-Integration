@@ -1,24 +1,15 @@
 #pragma once
-#include <Geode/loader/Dispatch.hpp>
+#include "struct.hpp"
 
+// This is the header file to include if you are a PROVIDER mod - i.e. providing
+// a friends list to the mod
+
+#include <Geode/loader/Dispatch.hpp>
 #define MY_MOD_ID "undefined0.socials_integration"
 
 namespace socials {
 
 // friend events
-
-struct Friend {
-    std::string m_name;
-    std::string m_id;
-    std::string m_source;
-    geode::Ref<geode::LazySprite> m_avatar;
-};
-
-struct SourceInfo {
-    std::string m_name;
-    std::string m_id;
-    geode::Ref<cocos2d::CCSprite> m_icon;
-};
 
 // sent by this mod on mod load to gather all the available friends
 class GatherFriendsEvent : public geode::Event {
@@ -35,14 +26,14 @@ class NetworkReadyEvent : public geode::Event {
 
 // sent by this mod when the invite button is clicked
 class InviteFriendEvent : public geode::Event {
-    friend class InviteFriendFilter; // so it can access sourceID
-    std::string m_sourceID;
+    friend class InviteFriendFilter; // so it can access providerID
+    std::string m_providerID;
     std::string m_friendID;
     std::string m_inviteData;
 
 public:
-    InviteFriendEvent(std::string sourceID, std::string friendID, std::string inviteData)
-        : m_sourceID(sourceID)
+    InviteFriendEvent(std::string providerID, std::string friendID, std::string inviteData)
+        : m_providerID(providerID)
         , m_friendID(friendID)
         , m_inviteData(inviteData) {}
     
@@ -51,15 +42,15 @@ public:
 };
 
 class InviteFriendFilter : public geode::EventFilter<InviteFriendEvent> {
-    std::string m_sourceID;
+    std::string m_providerID;
 
 public:
-    InviteFriendFilter(std::string sourceID)
-        : m_sourceID(sourceID) {}
+    InviteFriendFilter(std::string providerID)
+        : m_providerID(providerID) {}
 
     using Callback = geode::ListenerResult(InviteFriendEvent*);
     geode::ListenerResult handle(std::function<Callback> fn, InviteFriendEvent* event) {
-        if (event->m_sourceID != m_sourceID) return geode::ListenerResult::Propagate;
+        if (event->m_providerID != m_providerID) return geode::ListenerResult::Propagate;
         return fn(event);
     }
 };
@@ -75,46 +66,14 @@ public:
     std::string getInviteData() { return m_inviteData; }
 };
 
-// room events
 
-struct RoomInfo {
-    std::string m_roomSource;
-    uint64_t m_roomID;
-    std::string m_roomPassword;
-    uint64_t m_maxPlayerCount;
 
-    bool m_public;
-    bool m_canInvite;
-};
+class RoomJoinedEvent : public geode::Event {
 
-class RoomJoinEvent : public geode::Event {
-    RoomInfo m_roomInfo;
-
-public:
-    RoomJoinEvent(const RoomInfo& roomInfo)
-        : m_roomInfo(roomInfo) {}
-
-    RoomInfo getRoomInfo() { return m_roomInfo; }
 };
 
 class RoomLeftEvent : public geode::Event {
-    std::string m_roomSource;
 
-public:
-    RoomLeftEvent(std::string roomSource)
-        : m_roomSource(roomSource) {}
-
-    std::string getRoomSource() { return m_roomSource; }
-};
-
-class RoomUpdateEvent : public geode::Event {
-    RoomInfo m_roomInfo;
-
-public:
-    RoomUpdateEvent(const RoomInfo& roomInfo)
-        : m_roomInfo(roomInfo) {}
-
-    RoomInfo getRoomInfo() { return m_roomInfo; }
 };
 
 }
